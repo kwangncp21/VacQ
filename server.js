@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
+const cookieParser = require('cookie-parser');
 
 //Load env vars
 dotenv.config({path:'./config/config.env'});
@@ -12,6 +13,9 @@ const app = express();
 
 // Body parser
 app.use(express.json());
+
+//Cookie parser
+app.use(cookieParser());
 
 const hospitals = require(`./routes/hospitals`);
 // const { connect } = require('mongoose');
@@ -26,3 +30,7 @@ process.on('unhandledRejection',(err,promise)=>{
     // close server & exit process
     server.close(()=>process.exit(1));
 });
+
+const auth = require('./routes/auth');
+
+app.use(`/api/v1/auth`,auth);
