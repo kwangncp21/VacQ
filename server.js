@@ -18,8 +18,13 @@ app.use(express.json());
 app.use(cookieParser());
 
 const hospitals = require(`./routes/hospitals`);
+const auth = require('./routes/auth');
+const appointments = require(`./routes/appointments`);
+
 // const { connect } = require('mongoose');
 app.use(`/api/v1/hospitals`,hospitals);
+app.use(`/api/v1/auth`,auth);
+app.use(`/api/v1/appointments`,appointments);
 
 const PORT=process.env.PORT||3000;
 const server= app.listen(PORT, console.log('server running in',process.env.NODE_ENV,'mode on port',PORT));
@@ -30,7 +35,3 @@ process.on('unhandledRejection',(err,promise)=>{
     // close server & exit process
     server.close(()=>process.exit(1));
 });
-
-const auth = require('./routes/auth');
-
-app.use(`/api/v1/auth`,auth);
